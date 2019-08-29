@@ -1,13 +1,15 @@
 package ninja.soroosh.chatbot.core.runner;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import ninja.soroosh.chatbot.core.session.Session;
 
 import java.util.Optional;
 
-@Getter
-@AllArgsConstructor
+@Data
+@RequiredArgsConstructor
 public class Context {
-    private Optional<String> sessionId;
-    private String channel;
+    private final Optional<String> sessionId;
+    private Optional<Session> session;
+    private final String channel;
 }

@@ -10,29 +10,35 @@ import java.util.Optional;
 @Service
 public class SimpleCommandRunner implements CommandRunner {
     private final List<Rule> rules;
+    private final SimpleContextEnricher contextEnricher;
     private static Response defaultResponse = () -> "Unknown command!";
 
-    public SimpleCommandRunner(List<Rule> rules) {
+    public SimpleCommandRunner(List<Rule> rules, SimpleContextEnricher contextEnricher) {
         this.rules = rules;
+        this.contextEnricher = contextEnricher;
     }
 
     @Override
     public Response run(Command command, Context context) {
-        final Optional<Rule> matchedRule = this.rules.stream()
+        final Optional<Rule> maybeMatchedRule = this.rules.stream()
                 .filter(rule -> rule.getCommandName().equals(command.name()))
                 .findFirst();
+        if (maybeMatchedRule.isEmpty()) {
+            return defaultResponse;
+        }
+
+        context = contextEnricher.enrich(context);
 
         // TODO: improve the implementation
-        return matchedRule.map(rule -> {
-            try {
-                return (Response) rule.getMethod().invoke(rule.getObject(), command.name(), context);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-                return defaultResponse;
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-                return defaultResponse;
-            }
-        }).orElse(defaultResponse);
+        final Rule matchedRule = maybeMatchedRule.get();
+        try {
+            return (Response) matchedRule.getMethod().invoke(matchedRule.getObject(), command.name(), context);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return defaultResponse;
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+            return defaultResponse;
+        }
     }
 }
