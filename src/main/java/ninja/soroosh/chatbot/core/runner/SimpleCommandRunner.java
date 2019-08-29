@@ -17,7 +17,7 @@ public class SimpleCommandRunner implements CommandRunner {
     }
 
     @Override
-    public Response run(Command command) {
+    public Response run(Command command, Context context) {
         final Optional<Rule> matchedRule = this.rules.stream()
                 .filter(rule -> rule.getCommandName().equals(command.name()))
                 .findFirst();
@@ -25,7 +25,7 @@ public class SimpleCommandRunner implements CommandRunner {
         // TODO: improve the implementation
         return matchedRule.map(rule -> {
             try {
-                return (Response) rule.getMethod().invoke(rule.getObject(), command.name());
+                return (Response) rule.getMethod().invoke(rule.getObject(), command.name(), context);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
                 return defaultResponse;
