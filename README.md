@@ -20,3 +20,13 @@ public class MessageEchoExample {
 }
 ```
 
+
+## Milestones
+Below are some ideas I'll implement in the comming days, no promise to respect the order though!
+
+- [ ]  Design chatbot connector ready to implement for different platforms
+- [ ]  Telegram Chatbot connector 
+- [ ]  Google chat Chatbot connector 
+- [ ]  Slack chatbot connector
+- [ ]  Design plugin to make the chatbot extensible
+- [ ]  Some plugins out of the box
