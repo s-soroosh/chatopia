@@ -8,7 +8,7 @@ The idea is simple, develop chatbots in the same way do implement web applicatio
 
 A simple Example:
 
-## How to implement a chatbot that echo the message:
+# How to implement a chatbot that echo the message:
 ```java
 @Service
 @ChatController
@@ -24,7 +24,7 @@ public class MessageEchoExample {
 ![alt text](Chatops.png "Logo Title Text 1")
 
 
-## Milestones
+# Milestones
 Below are some ideas I'll implement in the comming days, no promise to respect the order though!
 
 - [ ]  Design chatbot connector ready to implement for different platforms
