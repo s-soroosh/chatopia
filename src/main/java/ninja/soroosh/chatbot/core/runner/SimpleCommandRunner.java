@@ -1,5 +1,6 @@
 package ninja.soroosh.chatbot.core.runner;
 
+import lombok.extern.slf4j.Slf4j;
 import ninja.soroosh.chatbot.core.Rule;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class SimpleCommandRunner implements CommandRunner {
     private final List<Rule> rules;
     private final SimpleContextEnricher contextEnricher;
@@ -28,16 +30,20 @@ public class SimpleCommandRunner implements CommandRunner {
         }
 
         final Context enrichedContext = contextEnricher.enrich(context);
-
-        // TODO: improve the implementation
         final Rule matchedRule = maybeMatchedRule.get();
+
+        return runCommand(command, enrichedContext, matchedRule);
+    }
+
+    private Response runCommand(Command command, Context enrichedContext, Rule matchedRule) {
         try {
-            return (Response) matchedRule.getMethod().invoke(matchedRule.getObject(), command.name(), enrichedContext);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return defaultResponse;
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            return (Response) matchedRule.getMethod().invoke(
+                    matchedRule.getObject(),
+                    command.name(),
+                    enrichedContext
+            );
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            log.error("Error In running command", e);
             return defaultResponse;
         }
     }
