@@ -5,11 +5,9 @@ import ninja.soroosh.chatbot.core.annotation.OnCommand;
 import ninja.soroosh.chatbot.core.runner.Context;
 import ninja.soroosh.chatbot.core.runner.Response;
 import ninja.soroosh.chatbot.core.session.Session;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
 @ChatController
 public class MessageEchoExample {
     @OnCommand("echo")

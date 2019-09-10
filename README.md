@@ -11,8 +11,7 @@ A simple Example:
 How to implement a chatbot that echo the message
 ------------------------------------------------
 ```java
-@Service
-@ChatController
+
 public class MessageEchoExample {
 
     @OnCommand("echo")
