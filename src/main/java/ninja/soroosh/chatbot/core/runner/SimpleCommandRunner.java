@@ -19,7 +19,7 @@ public class SimpleCommandRunner implements CommandRunner {
     }
 
     @Override
-    public Response run(Command command, Context context) {
+    public Response run(final Command command, final Context context) {
         final Optional<Rule> maybeMatchedRule = this.rules.stream()
                 .filter(rule -> rule.getCommandName().equals(command.name()))
                 .findFirst();
@@ -27,12 +27,12 @@ public class SimpleCommandRunner implements CommandRunner {
             return defaultResponse;
         }
 
-        context = contextEnricher.enrich(context);
+        final Context enrichedContext = contextEnricher.enrich(context);
 
         // TODO: improve the implementation
         final Rule matchedRule = maybeMatchedRule.get();
         try {
-            return (Response) matchedRule.getMethod().invoke(matchedRule.getObject(), command.name(), context);
+            return (Response) matchedRule.getMethod().invoke(matchedRule.getObject(), command.name(), enrichedContext);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
             return defaultResponse;
