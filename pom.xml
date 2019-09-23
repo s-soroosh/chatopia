@@ -42,19 +42,13 @@
             <version>2.6</version>
         </dependency>
 
-        <!-- Telegram connector-->
-        <dependency>
-            <groupId>org.telegram</groupId>
-            <artifactId>telegrambots</artifactId>
-            <version>4.4.0</version>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 
     <build>
         <plugins>

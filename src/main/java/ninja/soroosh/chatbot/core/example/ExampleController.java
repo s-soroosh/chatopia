@@ -19,7 +19,7 @@ public class ExampleController {
     @Autowired
     private ExampleCommandBuilder exampleCommandBuilder;
 
-    @PostMapping(name = "/example")
+    @PostMapping("/example")
     public ExampleResponse run(@RequestBody ExampleRequest exampleRequest, @RequestHeader(value = "x-session-id", required = false) Optional<String> sessionId) {
         final Command command = exampleCommandBuilder.build(exampleRequest);
         final Context context = new Context(sessionId, "example");
