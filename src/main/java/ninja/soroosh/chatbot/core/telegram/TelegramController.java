@@ -39,7 +39,11 @@ public class TelegramController {
     public String webhook(@RequestBody TelegramRequest telegramRequest) {
         final long chatId = telegramRequest.getMessage().getChat().getId();
         final Command command = telegramCommandBuilder.build(telegramRequest);
-        final Response commandResponse = commandRunner.run(command, new Context(Optional.empty(), "telegram"));
+        final String sessionId = "telegram-" + telegramRequest.getMessage().getChat().getId();
+        final Response commandResponse = commandRunner.run(
+                command,
+                new Context(Optional.of(sessionId), "telegram")
+        );
 
         Object response = restTemplate.postForEntity(
                 String.format("https://api.telegram.org/bot%s/sendMessage", key),
