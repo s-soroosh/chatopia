@@ -8,11 +8,11 @@
         <version>2.1.7.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>ninja.soroosh.chatbot</groupId>
-    <artifactId>chatbot-core</artifactId>
+    <groupId>ninja.soroosh.chatopia</groupId>
+    <artifactId>chatopia-core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>chatbot-core</name>
-    <description>Chatbot core</description>
+    <description>Chatopia core</description>
 
     <properties>
         <java.version>11</java.version>
