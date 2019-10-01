@@ -1,6 +1,6 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/44887b8a94d344b19f2f24f85228496d)](https://www.codacy.com/manual/soroosh.sarabadani/chatbot-core?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=psycho-ir/chatbot-core&amp;utm_campaign=Badge_Grade)
 
-Chatbot
+Chatopia
 =======
 
 A framework to build chatbot compatible with different platforms!
@@ -21,7 +21,7 @@ public class MessageEchoExample {
     ...
 }
 ```
-![alt text](Chatops.png "Logo Title Text 1")
+![alt text](Chatopia.png "Logo Title Text 1")
 
 Milestones
 ----------
