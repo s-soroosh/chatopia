@@ -1,9 +1,9 @@
-package ninja.soroosh.chatopia.core.telegram;
+package ninja.soroosh.chatopia.core.connectors.telegram;
 
 import lombok.Data;
 
 @Data
-public class Chat {
+class Chat {
     private long id;
     private String firstName;
     private String username;
