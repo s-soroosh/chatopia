@@ -1,10 +1,10 @@
-package ninja.soroosh.chatopia.core.telegram;
+package ninja.soroosh.chatopia.core.connectors.telegram;
 
 
 import lombok.Data;
 
 @Data
-public class TelegramMessage {
+class TelegramMessage {
     private String messageId;
     private Chat chat;
     private String text;

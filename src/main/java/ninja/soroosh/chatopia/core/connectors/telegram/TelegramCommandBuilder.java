@@ -1,11 +1,10 @@
-package ninja.soroosh.chatopia.core.telegram;
+package ninja.soroosh.chatopia.core.connectors.telegram;
 
 import ninja.soroosh.chatopia.core.runner.Command;
 import ninja.soroosh.chatopia.core.runner.CommandBuilder;
 import org.springframework.stereotype.Component;
 
-@Component
-public class TelegramCommandBuilder implements CommandBuilder<TelegramRequest> {
+class TelegramCommandBuilder implements CommandBuilder<TelegramRequest> {
     @Override
     public Command build(TelegramRequest request) {
         return new Command() {

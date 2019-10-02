@@ -1,9 +1,9 @@
-package ninja.soroosh.chatopia.core.telegram;
+package ninja.soroosh.chatopia.core.connectors.telegram;
 
 import lombok.Data;
 
 @Data
-public class TelegramRequest {
+class TelegramRequest {
     private String updateId;
     private TelegramMessage message;
 }
