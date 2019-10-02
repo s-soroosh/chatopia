@@ -1,0 +1,12 @@
+logging:
+  level:
+    root: debug
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+chatopia:
+  connector:
+    telegram:
+      enabled: true
+      key: YOUR_TELEGRAM_KEY
