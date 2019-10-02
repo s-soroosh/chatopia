@@ -23,7 +23,7 @@ public class MessageEchoExample {
                 .orElse("1");
         session.set("count", currentCount);
 
-        return () -> "Hi man, How are you? you session Id is "
+        return () -> "Hi man, How are you? your session Id is "
                 + context.getSessionId() +
                 " and you are on channel: " + context.getChannel() +
                 " and you call me " + currentCount + " times";
