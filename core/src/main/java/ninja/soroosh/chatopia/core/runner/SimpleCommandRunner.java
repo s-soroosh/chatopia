@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -14,10 +15,14 @@ public class SimpleCommandRunner implements CommandRunner {
     private final List<Rule> rules;
     private final SimpleContextEnricher contextEnricher;
     private static Response defaultResponse = () -> "Unknown command!";
+    private final Response helpResponse;
 
     public SimpleCommandRunner(List<Rule> rules, SimpleContextEnricher contextEnricher) {
         this.rules = rules;
         this.contextEnricher = contextEnricher;
+        this.helpResponse = () -> rules.stream()
+                .map(rule -> rule.getCommandName() + " - " + rule.getHelp())
+                .collect(Collectors.joining("\n"));
     }
 
     @Override
@@ -26,6 +31,9 @@ public class SimpleCommandRunner implements CommandRunner {
                 .filter(rule -> rule.getCommandName().equals(command.name()))
                 .findFirst();
         if (maybeMatchedRule.isEmpty()) {
+            if (command.name().equals("help")) {
+                return helpResponse;
+            }
             return defaultResponse;
         }
 

@@ -20,6 +20,6 @@ public class RulesBuilder {
 
     private Rule toRule(Object object, Method method) {
         final OnCommand onCommandAnnotation = method.getAnnotation(OnCommand.class);
-        return new Rule(onCommandAnnotation.value(), object, method);
+        return new Rule(onCommandAnnotation.value(), onCommandAnnotation.help(), object, method);
     }
 }

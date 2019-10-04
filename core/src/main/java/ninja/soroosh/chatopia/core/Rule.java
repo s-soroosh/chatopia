@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 @AllArgsConstructor
 public class Rule {
     private String commandName;
+    private String help;
     private Object object;
     private Method method;
 }
