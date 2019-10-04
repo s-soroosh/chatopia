@@ -10,12 +10,12 @@ import java.util.Optional;
 
 @ChatController
 public class MessageEchoExample {
-    @OnCommand("echo")
+    @OnCommand(value = "echo", help = "This command echo")
     public Response onEchoCommand(String message, Context context) {
         return () -> "echo " + message;
     }
 
-    @OnCommand("hi")
+    @OnCommand(value = "hi", help = "start a chat")
     public Response onHiCommand(String message, Context context) {
         final Session session = context.getSession().get();
         final Optional<String> previousCount = session.get("count");

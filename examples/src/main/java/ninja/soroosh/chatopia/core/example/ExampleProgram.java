@@ -7,8 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan("ninja.soroosh.chatopia.core")
-public class ExmpleProgram {
+public class ExampleProgram {
     public static void main(String[] args) {
-        SpringApplication.run(ExmpleProgram.class, args);
+        SpringApplication.run(ExampleProgram.class, args);
     }
 }
