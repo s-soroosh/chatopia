@@ -35,17 +35,27 @@ Below are some ideas I'll implement in the comming days, no promise to respect t
 -   [ ]  Some plugins out of the box
 
 ------  
-to run the shell script called `set_telegram_webhook.sh` following steps might be needed:  
--   [ ]   install `jq`, jq is a lightweight and flexible command-line JSON processor:
--on Ubuntu:`sudo apt install jq`  
--on mac:`sudo brew install jq`
--doc and other options:[link](https://stedolan.github.io/jq/) 
+To test the example you need to run the shell script called `set_telegram_webhook.sh` in root folder
+following steps might be needed:  
+1.  Install `jq`. jq is a lightweight and flexible command-line JSON processor:  
+	- on Ubuntu:`sudo apt install jq`  
+	- on mac:`sudo brew install jq`  
+	- doc and other options: [here](https://stedolan.github.io/jq/) 
+  
+2.  Install `ngrok`:cross-platform application that enables developers to expose a local development server to the Internet with minimal effort:  
+	- download `ngrok*.zip` from: [here](https://ngrok.com/download)
+	- unzip downloaded file: `unzip*.zip`
+	- log in to website
+	- set your token:`./ngrok authtoken <your_auth_token>`
+	- move it to bin:`sudo mv ngrok /usr/local/bin`
+	- check if everything works fine by this command:`ngrok http 80`  
+  
+3. Get your currently existing bot API from telegrams [botfather](www.T.me/BotFather) or create one.  
 
--   [ ]   install `ngrok`:cross-platform application that enables developers to expose a local development server to the Internet with minimal effort.
+4. Once you have your API Key ready, run this script. Replace TELEGRAM_API_KEY with your API Key:
+	- set API key in: `resources/application.yml`  
+	- `./set_telegram_webhook.sh 8080 /connectors/telegram TELEGRAM_API_KEY`
 
--download `ngrok*.zip` from:[link](https://ngrok.com/download)
--unzip:unzip*.zip`
--log in to website
--set your token:`./ngrok authtoken <your_auth_token>`
--move it to bin:`sudo mv ngrok /usr/local/bin`
--check if everything works fine:`ngrok http 80`
+5. If everything is fine you will see:  
+	`{"ok":true,"result":true,"description":"Webhook is already set"}`  
+6. Send a simple `hi` message to your bot to check it working. have fun.
