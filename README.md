@@ -40,16 +40,16 @@ to run the shell script called `set_telegram_webhook.sh` following steps might b
         on Ubuntu: `sudo apt install jq`  
         on mac: `sudo brew install jq`  
         doc and other options: [link](https://stedolan.github.io/jq/) 
-        
+       
  - [ ]   install `ngrok`: cross-platform application that enables developers to expose a local development server to the Internet with minimal effort. 
 - download `ngrok*.zip` from: [link](https://ngrok.com/download)
 
-- unzip: `unzip*.zip`
+- unzip:`unzip*.zip`
 
 - log in to website
 
-- set your token: `./ngrok authtoken <your_auth_token>`
+- set your token:`./ngrok authtoken <your_auth_token>`
 
-- move it to bin: `sudo mv ngrok /usr/local/bin`
+- move it to bin:`sudo mv ngrok /usr/local/bin`
 
-- check if everything works fine: `ngrok http 80`
+- check if everything works fine:`ngrok http 80`
