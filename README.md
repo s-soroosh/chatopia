@@ -36,11 +36,11 @@ Below are some ideas I'll implement in the comming days, no promise to respect t
 
 ------  
 to run the shell script called `set_telegram_webhook.sh` following steps might be needed:  
--  [ ]   install `jq`, jq is a lightweight and flexible command-line JSON processor:
+-   [ ]   install `jq`, jq is a lightweight and flexible command-line JSON processor:
 -on Ubuntu:`sudo apt install jq`  
 -on mac:`sudo brew install jq`
 -doc and other options:[link](https://stedolan.github.io/jq/) 
-       
+
 -   [ ]   install `ngrok`:cross-platform application that enables developers to expose a local development server to the Internet with minimal effort.
 
 -download `ngrok*.zip` from:[link](https://ngrok.com/download)
