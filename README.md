@@ -34,7 +34,8 @@ Below are some ideas I'll implement in the comming days, no promise to respect t
 -   [ ]  Design plugin to make the chatbot extensible
 -   [ ]  Some plugins out of the box
 
-------  
+How to run examples
+-----------
 To test the example you need to run the shell script called `set_telegram_webhook.sh` in root folder
 following steps might be needed:  
 1.  Install `jq`. jq is a lightweight and flexible command-line JSON processor:  
