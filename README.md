@@ -18,7 +18,7 @@ public class MessageEchoExample {
     public Response onEchoCommand(String message, Context context) {
         return () -> "echo " + message;
     }
-    ...
+    
 }
 ```
 ![alt text](Chatopia.png "Logo Title Text 1")
@@ -33,3 +33,18 @@ Below are some ideas I'll implement in the comming days, no promise to respect t
 -   [ ]  Slack chatbot connector
 -   [ ]  Design plugin to make the chatbot extensible
 -   [ ]  Some plugins out of the box
+
+------  
+to run the shell script called `set_telegram_webhook.sh` following steps might be needed:  
+ - [ ] install `jq`, jq is a lightweight and flexible command-line JSON processor:  
+        on Ubuntu: `sudo apt install jq`  
+        on mac: `sudo brew install jq`  
+        doc and other options: https://stedolan.github.io/jq/  
+ - [ ] install `ngrok`: cross-platform application that enables developers to expose a local development server to
+ the Internet with minimal effort.
+    - download `ngrok*.zip` from: https://ngrok.com/download
+    - unzip: `unzip*.zip`  
+    - log in to website  
+    - set your token: `./ngrok authtoken <your_auth_token>`  
+    - move it to bin: `sudo mv ngrok /usr/local/bin`  
+    - check if everything works fine: `ngrok http 80`  
