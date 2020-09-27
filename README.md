@@ -18,7 +18,7 @@ public class MessageEchoExample {
     public Response onEchoCommand(String message, Context context) {
         return () -> "echo " + message;
     }
-    
+    //...
 }
 ```
 ![alt text](Chatopia.png "Logo Title Text 1")
