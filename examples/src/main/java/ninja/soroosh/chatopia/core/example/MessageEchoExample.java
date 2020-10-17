@@ -12,7 +12,8 @@ import java.util.Optional;
 public class MessageEchoExample {
     @OnCommand(value = "echo", help = "This command echo")
     public Response onEchoCommand(String message, Context context) {
-        return () -> "echo " + message;
+        return () -> "your command is: echo"
+                +"\n and your whole message is: " + message;
     }
 
     @OnCommand(value = "hi", help = "start a chat")
