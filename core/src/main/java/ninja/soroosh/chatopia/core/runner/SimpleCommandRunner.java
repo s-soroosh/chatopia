@@ -28,8 +28,10 @@ public class SimpleCommandRunner implements CommandRunner {
     @Override
     public Response run(final Command command, final Context context) {
         final Optional<Rule> maybeMatchedRule = this.rules.stream()
-                .filter(rule -> command.name().startsWith(rule.getCommandName())
-                || command.name().equals(rule.getCommandName()))
+                .filter(rule ->
+                        (command.name().startsWith(rule.getCommandName().split("\\s")[0])
+                                && rule.getCommandName().endsWith(" *"))
+                                || command.name().equals(rule.getCommandName()))
                 .findFirst();
         if (maybeMatchedRule.isEmpty()) {
             if (command.name().equals("help")) {

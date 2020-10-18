@@ -16,6 +16,12 @@ public class MessageEchoExample {
                 +"\n and your whole message is: " + message;
     }
 
+    @OnCommand(value = "echo *", help = "This command echo")
+    public Response onEchoStarCommand(String message, Context context) {
+        return () -> "your command is: echo star, meaning that it differs from echo itself"
+                +"\n and your whole message is: " + message;
+    }
+
     @OnCommand(value = "hi", help = "start a chat")
     public Response onHiCommand(String message, Context context) {
         final Session session = context.getSession().get();
