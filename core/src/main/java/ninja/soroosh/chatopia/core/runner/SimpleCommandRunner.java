@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class SimpleCommandRunner implements CommandRunner {
     private final List<Rule> rules;
     private final SimpleContextEnricher contextEnricher;
-    private static Response defaultResponse = () -> "Unknown command!";
+    private static Response defaultResponse = () -> "Unknown command! \nPlease use command \"help\" to find out what capabilities I have!";
     private final Response helpResponse;
 
     public SimpleCommandRunner(List<Rule> rules, SimpleContextEnricher contextEnricher) {
