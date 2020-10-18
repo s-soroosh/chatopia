@@ -51,12 +51,12 @@ class TelegramController {
                 new Context(Optional.of(sessionId), "telegram")
         );
 
-        var markup = commandResponse.options().isEmpty() ? null :
-                new InlineKeyboardMarkup(List.of(List.of(new InlineKeyboardButton(commandResponse.options().get(0).getText(), commandResponse.options().get(0).getText()))));
+        var markup = commandResponse.getOptions().isEmpty() ? null :
+                new InlineKeyboardMarkup(List.of(List.of(new InlineKeyboardButton(commandResponse.getOptions().get(0).getText(), commandResponse.getOptions().get(0).getText()))));
 
         Object response = restTemplate.postForEntity(
                 String.format("https://api.telegram.org/bot%s/sendMessage", key),
-                new TelegramSendMessage(chatId, commandResponse.message(), markup), Object.class);
+                new TelegramSendMessage(chatId, commandResponse.getMessage(), markup), Object.class);
 
         System.out.println(response);
         return "ok";
