@@ -3,9 +3,11 @@ package ninja.soroosh.chatopia.core.example;
 import ninja.soroosh.chatopia.core.annotation.ChatController;
 import ninja.soroosh.chatopia.core.annotation.OnCommand;
 import ninja.soroosh.chatopia.core.runner.Context;
+import ninja.soroosh.chatopia.core.runner.Option;
 import ninja.soroosh.chatopia.core.runner.Response;
 import ninja.soroosh.chatopia.core.session.Session;
 
+import java.util.List;
 import java.util.Optional;
 
 @ChatController
@@ -27,5 +29,20 @@ public class MessageEchoExample {
                 + context.getSessionId() +
                 " and you are on channel: " + context.getChannel() +
                 " and you call me " + currentCount + " times";
+    }
+
+    @OnCommand(value = "options", help = "A showcase to list options")
+    public Response onOptionsCommand(String message, Context context) {
+        return new Response() {
+            @Override
+            public String message() {
+                return "Here are the options";
+            }
+
+            @Override
+            public List<Option> options() {
+                return List.of(new Option("option1"));
+            }
+        };
     }
 }
