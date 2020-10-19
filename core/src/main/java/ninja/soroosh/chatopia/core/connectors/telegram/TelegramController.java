@@ -2,10 +2,7 @@ package ninja.soroosh.chatopia.core.connectors.telegram;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ninja.soroosh.chatopia.core.runner.Command;
-import ninja.soroosh.chatopia.core.runner.CommandRunner;
-import ninja.soroosh.chatopia.core.runner.Context;
-import ninja.soroosh.chatopia.core.runner.Response;
+import ninja.soroosh.chatopia.core.runner.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -51,15 +48,24 @@ class TelegramController {
                 new Context(Optional.of(sessionId), "telegram")
         );
 
-        var markup = commandResponse.getOptions().isEmpty() ? null :
-                new InlineKeyboardMarkup(List.of(List.of(new InlineKeyboardButton(commandResponse.getOptions().get(0).getText(), commandResponse.getOptions().get(0).getText()))));
+        var optionsMarkup = generateOptionsMark(commandResponse.getOptions());
 
         Object response = restTemplate.postForEntity(
                 String.format("https://api.telegram.org/bot%s/sendMessage", key),
-                new TelegramSendMessage(chatId, commandResponse.getMessage(), markup), Object.class);
+                new TelegramSendMessage(chatId, commandResponse.getMessage(), optionsMarkup), Object.class);
 
         System.out.println(response);
         return "ok";
+    }
+
+    private ReplyMarkup generateOptionsMark(List<Option> options) {
+        if (options.isEmpty()) {
+            return null;
+        }
+//        options
+//                .stream()
+//                .map(option -> option)
+        return new InlineKeyboardMarkup(List.of(List.of(new InlineKeyboardButton(options.get(0).getText(), options.get(0).getText()))));
     }
 }
 

@@ -8,4 +8,5 @@ import lombok.Data;
 public class InlineKeyboardButton {
     private String text;
     private String callbackData;
+//    private String
 }
