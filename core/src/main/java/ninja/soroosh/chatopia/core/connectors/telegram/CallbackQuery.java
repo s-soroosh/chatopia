@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class CallbackQuery {
     private TelegramMessage message;
+    private String data;
 }
