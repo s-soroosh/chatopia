@@ -1,4 +1,4 @@
-name: Java CI
+name: Release Chatopia
 
 on:
   push:
@@ -16,9 +16,11 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 15
-    - name: Build with Maven
-      run: mvn install --file core/pom.xml
+#    - name: Build with Maven
+#      run: mvn install --file core/pom.xml
     - name: Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: mvn deploy -Dregistry=https://maven.pkg.github.com/psycho-ir -Dtoken=$GITHUB_TOKEN --file core/pom.xml
+      run: |
+        cd core
+        mvn deploy -Dregistry=https://maven.pkg.github.com/psycho-ir -Dtoken=$GITHUB_TOKEN
