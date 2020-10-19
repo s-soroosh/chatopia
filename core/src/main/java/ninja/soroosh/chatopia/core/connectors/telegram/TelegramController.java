@@ -1,7 +1,5 @@
 package ninja.soroosh.chatopia.core.connectors.telegram;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import ninja.soroosh.chatopia.core.runner.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @ConditionalOnProperty(value = "chatopia.connector.telegram.enabled", havingValue = "true", matchIfMissing = true)
@@ -40,8 +39,9 @@ class TelegramController {
     @PostMapping(path = "/connectors/telegram")
     public String webhook(@RequestBody TelegramRequest telegramRequest) {
         var message = telegramRequest.getMessage() != null ? telegramRequest.getMessage() : telegramRequest.getCallbackQuery().getMessage();
+        var commandText = telegramRequest.getCallbackQuery() == null ? message.getText() : telegramRequest.getCallbackQuery().getData();
         final long chatId = message.getChat().getId();
-        final Command command = telegramCommandBuilder.build(message);
+        final Command command = telegramCommandBuilder.build(commandText);
         final String sessionId = "telegram-" + chatId;
         final Response commandResponse = commandRunner.run(
                 command,
@@ -59,13 +59,22 @@ class TelegramController {
     }
 
     private ReplyMarkup generateOptionsMark(List<Option> options) {
-        if (options.isEmpty()) {
+        if (options == null || options.isEmpty()) {
             return null;
         }
-//        options
-//                .stream()
-//                .map(option -> option)
-        return new InlineKeyboardMarkup(List.of(List.of(new InlineKeyboardButton(options.get(0).getText(), options.get(0).getText()))));
+        final var markups = options
+                .stream()
+                .map(option -> {
+                            if (option instanceof CallbackURLOption callbackURLOption) {
+                                return new InlineKeyboardButton(callbackURLOption.getText(), null, callbackURLOption.url());
+                            } else if (option instanceof CallbackDataOption callbackDataOption) {
+                                return new InlineKeyboardButton(callbackDataOption.getText(), callbackDataOption.data(), null);
+                            } else {
+                                return new InlineKeyboardButton(option.getText(), "EMPTY_DATA", null);
+                            }
+                        }
+                ).collect(Collectors.toList());
+        return new InlineKeyboardMarkup(List.of(markups));
     }
 }
 

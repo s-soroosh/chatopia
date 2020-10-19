@@ -38,7 +38,7 @@ public class MessageEchoExample {
                 .withMessage("Here are the options")
                 .withOptions(
                         List.of(
-                                new CallbackDataOption("option1", "data1"),
+                                new CallbackDataOption("option1", "options"),
                                 new CallbackURLOption("option2", "https://google.com")
                         )
                 );
