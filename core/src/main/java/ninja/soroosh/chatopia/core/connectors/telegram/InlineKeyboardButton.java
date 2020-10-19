@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-class TelegramSendMessage {
-    private long chatId;
+public class InlineKeyboardButton {
     private String text;
-    private ReplyMarkup replyMarkup;
+    private String callbackData;
+    private String url;
 }

@@ -12,7 +12,10 @@ import java.util.stream.Collectors;
 public class RulesBuilder {
     public List<Rule> buildFromOnCommandAnnotations(Collection<Object> candidateObjects) {
         return candidateObjects.stream().
-                flatMap(object -> Arrays.stream(object.getClass().getDeclaredMethods()).map(m -> Pair.of(object, m)))
+                flatMap(object -> Arrays.stream(object.getClass()
+                        .getDeclaredMethods())
+                        .map(m -> Pair.of(object, m))
+                )
                 .filter(objectMethodPair -> objectMethodPair.getItem2().isAnnotationPresent(OnCommand.class))
                 .map(objectMethodPair -> toRule(objectMethodPair.getItem1(), objectMethodPair.getItem2()))
                 .collect(Collectors.toList());

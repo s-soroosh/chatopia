@@ -14,15 +14,17 @@ import java.util.stream.Collectors;
 public class SimpleCommandRunner implements CommandRunner {
     private final List<Rule> rules;
     private final SimpleContextEnricher contextEnricher;
-    private static Response defaultResponse = () -> "Unknown command!";
+    private static Response defaultResponse = Response.withMessage("Unknown command! \nPlease use command \"help\" to find out what capabilities I have!");
     private final Response helpResponse;
 
     public SimpleCommandRunner(List<Rule> rules, SimpleContextEnricher contextEnricher) {
         this.rules = rules;
         this.contextEnricher = contextEnricher;
-        this.helpResponse = () -> rules.stream()
-                .map(rule -> rule.getCommandName() + " - " + rule.getHelp())
-                .collect(Collectors.joining("\n"));
+        this.helpResponse = Response.withMessage(
+                rules.stream()
+                        .map(rule -> rule.getCommandName() + " - " + rule.getHelp())
+                        .collect(Collectors.joining("\n"))
+        );
     }
 
     @Override
