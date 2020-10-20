@@ -6,7 +6,7 @@
 
     <groupId>ninja.soroosh.chatopia</groupId>
     <artifactId>core</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.3</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -70,5 +70,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>psycho-ir</name>
+            <url>https://maven.pkg.github.com/psycho-ir/chatopia</url>
+        </repository>
+    </distributionManagement>
 
 </project>
