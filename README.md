@@ -1,3 +1,4 @@
+[ ![Download](https://api.bintray.com/packages/psycho-ir/chatopia/chatopia-core/images/download.svg) ](https://bintray.com/psycho-ir/chatopia/chatopia-core/_latestVersion)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/44887b8a94d344b19f2f24f85228496d)](https://www.codacy.com/manual/soroosh.sarabadani/chatbot-core?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=psycho-ir/chatbot-core&amp;utm_campaign=Badge_Grade)
 
 Chatopia
