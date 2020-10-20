@@ -16,7 +16,7 @@ jobs:
     - name: Release
       env:
         RELEASE_VERSION: ${{ github.event.release.tag_name }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        API_BINTRAY_KEY: ${{ secrets.API_BINTRAY_KEY }}
       run: |
         mvn versions:set -f core/pom.xml -DnewVersion=${RELEASE_VERSION}
         mvn -f core/pom.xml  --settings settings.xml  deploy
