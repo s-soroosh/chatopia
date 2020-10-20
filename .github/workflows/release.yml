@@ -19,4 +19,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         mvn versions:set -f core/pom.xml -DnewVersion=${RELEASE_VERSION}
-        mvn deploy -Dregistry=https://maven.pkg.github.com/psycho-ir -Dtoken=$GITHUB_TOKEN
+        mvn -f core/pom.xml  --settings settings.xml  deploy
