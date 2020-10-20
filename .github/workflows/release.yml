@@ -19,4 +19,4 @@ jobs:
         API_BINTRAY_KEY: ${{ secrets.API_BINTRAY_KEY }}
       run: |
         mvn versions:set -f core/pom.xml -DnewVersion=${RELEASE_VERSION}
-        mvn -f core/pom.xml  --settings settings.xml  deploy
+        BINTRAY_API_KEY=$API_BINTRAY_KEY mvn -f core/pom.xml  --settings settings.xml  deploy
