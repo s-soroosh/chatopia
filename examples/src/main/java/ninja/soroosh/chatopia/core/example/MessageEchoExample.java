@@ -18,6 +18,11 @@ public class MessageEchoExample {
         return Response.withMessage("echo " + message);
     }
 
+    @OnCommand(value = "echo *", help = "This command echo")
+    public Response onEchoStarCommand(String message, Context context) {
+        return Response.withMessage(message.substring(5));
+    }
+
     @OnCommand(value = "hi", help = "start a chat")
     public Response onHiCommand(String message, Context context) {
         final Session session = context.getSession().get();
@@ -26,10 +31,10 @@ public class MessageEchoExample {
                 .orElse("1");
         session.set("count", currentCount);
 
-        return Response.withMessage("Hi man, How are you? your session Id is "
+        return Response.withMessage("Hi, How are you?\nyour session Id is: "
                 + context.getSessionId() +
-                " and you are on channel: " + context.getChannel() +
-                " and you call me " + currentCount + " times");
+                "\nyou are on channel: " + context.getChannel() +
+                "\nyou have called me: " + currentCount + " times");
     }
 
     @OnCommand(value = "options", help = "A showcase to list options")
