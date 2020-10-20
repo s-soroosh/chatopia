@@ -28,9 +28,9 @@
 
     <servers>
         <server>
-            <id>github</id>
+            <id>bintray-psycho-ir-chatopia</id>
             <username>psycho-ir</username>
-            <password>${env.GITHUB_TOKEN}</password>
+            <password>${env.BINTRAY_API_KEY}</password>
         </server>
     </servers>
 </settings>

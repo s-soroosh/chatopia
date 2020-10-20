@@ -73,9 +73,9 @@
 
     <distributionManagement>
         <repository>
-            <id>github</id>
-            <name>psycho-ir</name>
-            <url>https://maven.pkg.github.com/psycho-ir/chatopia</url>
+            <id>bintray-psycho-ir-chatopia</id>
+            <name>psycho-ir-chatopia</name>
+            <url>https://api.bintray.com/maven/psycho-ir/chatopia/chatopia-core/;publish=1</url>
         </repository>
     </distributionManagement>
 
