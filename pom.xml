@@ -34,4 +34,13 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>psycho-ir</name>
+            <url>https://maven.pkg.github.com/psycho-ir/chatopia</url>
+        </repository>
+    </distributionManagement>
 </project>
+
