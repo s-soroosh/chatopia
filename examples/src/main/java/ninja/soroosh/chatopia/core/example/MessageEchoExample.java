@@ -48,4 +48,9 @@ public class MessageEchoExample {
                         )
                 );
     }
+
+    @OnCommand(value = "photo", help = "A showcase to send a photo")
+    public Response onPhotoCommand(String message, Context context) {
+        return Response.asPhoto(this.getClass().getClassLoader().getResourceAsStream("bird.jpg"));
+    }
 }
