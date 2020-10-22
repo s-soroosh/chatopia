@@ -8,6 +8,7 @@ import ninja.soroosh.chatopia.core.runner.Context;
 import ninja.soroosh.chatopia.core.runner.responses.Response;
 import ninja.soroosh.chatopia.core.session.Session;
 
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,5 +53,13 @@ public class MessageEchoExample {
     @OnCommand(value = "photo", help = "A showcase to send a photo")
     public Response onPhotoCommand(String message, Context context) {
         return Response.asPhoto(this.getClass().getClassLoader().getResourceAsStream("bird.jpg"));
+    }
+
+    @OnCommand(value = "photo *", help = "Load photo as message in telegram")
+    public Response onPhCommand(String message, Context context) throws MalformedURLException {
+        final var url = message.substring(6);
+        return Response
+                .asPhoto(url)
+                .withCaption("chetoram?");
     }
 }
