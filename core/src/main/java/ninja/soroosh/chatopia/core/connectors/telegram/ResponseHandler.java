@@ -37,47 +37,60 @@ public class ResponseHandler {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    //    TODO: model a general handling type
+    //    TODO: model a general handling return type
     public Object handle(TelegramMessage message, Response response) {
         Object result = null;
+        final long chatId = message.getChat().getId();
         if (response instanceof TextResponse textResponse) {
             var optionsMarkup = generateOptionsMark(textResponse.getOptions());
             result = restTemplate.postForEntity(
                     String.format("https://api.telegram.org/bot%s/sendMessage", key),
-                    new TelegramSendMessage(message.getChat().getId(), textResponse.getMessage(), optionsMarkup), Object.class);
+                    new TelegramSendMessage(chatId, textResponse.getMessage(), optionsMarkup), Object.class);
         } else if (response instanceof PhotoResponse photoResponse) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+            if (photoResponse.getId() != null) {
+                final var requestBody = new TelegramSendPhoto(chatId, photoResponse.getId(), photoResponse.getCaption());
+                result = restTemplate.postForEntity(
+                        String.format("https://api.telegram.org/bot%s/sendPhoto", key), requestBody
+                        , Object.class);
+            } else if (photoResponse.getUrl() != null) {
+                final var requestBody = new TelegramSendPhoto(chatId, photoResponse.getUrl().toString(), photoResponse.getCaption());
+                result = restTemplate.postForEntity(
+                        String.format("https://api.telegram.org/bot%s/sendPhoto", key), requestBody
+                        , Object.class);
+            } else {
+                // TODO: extract every response type to its handler
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-            MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
-            ContentDisposition contentDisposition = ContentDisposition
-                    .builder("form-data")
-                    .name("photo")
-                    .filename("photo")
-                    .build();
-            fileMap.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
+                MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
+                ContentDisposition contentDisposition = ContentDisposition
+                        .builder("form-data")
+                        .name("photo")
+                        .filename("photo")
+                        .build();
+                fileMap.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
 
-            HttpEntity<byte[]> fileEntity = null;
-            try {
-                fileEntity = new HttpEntity<>(photoResponse.getPhotoStream().readAllBytes(), fileMap);
-            } catch (IOException e) {
-                // TODO: Handle error
-                e.printStackTrace();
+                HttpEntity<byte[]> fileEntity = null;
+                try {
+                    fileEntity = new HttpEntity<>(photoResponse.getPhotoStream().readAllBytes(), fileMap);
+                } catch (IOException e) {
+                    // TODO: Handle error
+                    e.printStackTrace();
+                }
+
+                MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
+                form.add("photo", fileEntity);
+                form.add("chat_id", chatId);
+                form.add("caption", photoResponse.getCaption());
+                HttpEntity<MultiValueMap<String, Object>> requestEntity
+                        = new HttpEntity<>(form, headers);
+
+                result = restTemplate.postForEntity(
+                        String.format("https://api.telegram.org/bot%s/sendPhoto", key), requestEntity
+                        , Object.class);
             }
-
-            MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
-            form.add("photo", fileEntity);
-            form.add("chat_id", message.getChat().getId());
-            form.add("caption", photoResponse.getCaption());
-            HttpEntity<MultiValueMap<String, Object>> requestEntity
-                    = new HttpEntity<>(form, headers);
-
-            result = restTemplate.postForEntity(
-                    String.format("https://api.telegram.org/bot%s/sendPhoto", key), requestEntity
-                    , Object.class);
         }
         return result;
-
     }
 
     private ReplyMarkup generateOptionsMark(List<Option> options) {
