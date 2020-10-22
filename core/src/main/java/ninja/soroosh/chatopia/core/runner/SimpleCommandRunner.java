@@ -2,6 +2,8 @@ package ninja.soroosh.chatopia.core.runner;
 
 import lombok.extern.slf4j.Slf4j;
 import ninja.soroosh.chatopia.core.Rule;
+import ninja.soroosh.chatopia.core.runner.responses.Response;
+import ninja.soroosh.chatopia.core.runner.responses.TextResponse;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.InvocationTargetException;
@@ -14,13 +16,13 @@ import java.util.stream.Collectors;
 public class SimpleCommandRunner implements CommandRunner {
     private final List<Rule> rules;
     private final SimpleContextEnricher contextEnricher;
-    private static Response defaultResponse = Response.withMessage("Unknown command! \nPlease use command \"help\" to find out what capabilities I have!");
+    private static Response defaultResponse = Response.asText("Unknown command! \nPlease use command \"help\" to find out what capabilities I have!");
     private final Response helpResponse;
 
     public SimpleCommandRunner(List<Rule> rules, SimpleContextEnricher contextEnricher) {
         this.rules = rules;
         this.contextEnricher = contextEnricher;
-        this.helpResponse = Response.withMessage(
+        this.helpResponse = Response.asText(
                 rules.stream()
                         .map(rule -> rule.getCommandName() + " - " + rule.getHelp())
                         .collect(Collectors.joining("\n"))
