@@ -1,18 +1,26 @@
 package ninja.soroosh.chatopia.core.connectors.telegram;
 
 import ninja.soroosh.chatopia.core.runner.*;
+import ninja.soroosh.chatopia.core.runner.responses.PhotoResponse;
 import ninja.soroosh.chatopia.core.runner.responses.Response;
 import ninja.soroosh.chatopia.core.runner.responses.TextResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,7 +47,7 @@ class TelegramController {
 
 
     @PostMapping(path = "/connectors/telegram")
-    public String webhook(@RequestBody TelegramRequest telegramRequest) {
+    public String webhook(@RequestBody TelegramRequest telegramRequest) throws IOException {
         var message = telegramRequest.getMessage() != null ? telegramRequest.getMessage() : telegramRequest.getCallbackQuery().getMessage();
         var commandText = telegramRequest.getCallbackQuery() == null ? message.getText() : telegramRequest.getCallbackQuery().getData();
         final long chatId = message.getChat().getId();
@@ -56,6 +64,30 @@ class TelegramController {
             response = restTemplate.postForEntity(
                     String.format("https://api.telegram.org/bot%s/sendMessage", key),
                     new TelegramSendMessage(chatId, textResponse.getMessage(), optionsMarkup), Object.class);
+        } else if (commandResponse instanceof PhotoResponse photoResponse) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+            MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
+            ContentDisposition contentDisposition = ContentDisposition
+                    .builder("form-data")
+                    .name("photo")
+                    .filename("photo")
+                    .build();
+            fileMap.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
+
+            HttpEntity<byte[]> fileEntity = new HttpEntity<>(photoResponse.getPhotoStream().readAllBytes(), fileMap);
+
+            MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
+            form.add("photo", fileEntity);
+            form.add("chat_id", chatId);
+            form.add("caption", photoResponse.getCaption());
+            HttpEntity<MultiValueMap<String, Object>> requestEntity
+                    = new HttpEntity<>(form, headers);
+
+            response = restTemplate.postForEntity(
+                    String.format("https://api.telegram.org/bot%s/sendPhoto", key), requestEntity
+                    , Object.class);
         }
 
 

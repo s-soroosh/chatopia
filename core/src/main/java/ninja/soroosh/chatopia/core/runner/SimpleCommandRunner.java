@@ -51,7 +51,7 @@ public class SimpleCommandRunner implements CommandRunner {
 
     private Response runCommand(Command command, Context enrichedContext, Rule matchedRule) {
         try {
-            return (TextResponse) matchedRule.getMethod().invoke(
+            return (Response) matchedRule.getMethod().invoke(
                     matchedRule.getObject(),
                     command.name(),
                     enrichedContext

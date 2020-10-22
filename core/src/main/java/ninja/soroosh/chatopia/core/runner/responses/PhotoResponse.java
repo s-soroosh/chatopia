@@ -6,11 +6,15 @@ import java.io.InputStream;
 
 @Getter
 public final class PhotoResponse implements Response {
-    private final String caption;
+    private String caption;
     private final InputStream photoStream;
 
-    public PhotoResponse(String caption, InputStream photoStream) {
-        this.caption = caption;
+    public PhotoResponse(InputStream photoStream) {
         this.photoStream = photoStream;
+    }
+
+    public PhotoResponse withCaption(String caption) {
+        this.caption = caption;
+        return this;
     }
 }
