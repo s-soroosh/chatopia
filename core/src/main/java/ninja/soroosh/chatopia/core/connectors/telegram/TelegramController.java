@@ -1,6 +1,8 @@
 package ninja.soroosh.chatopia.core.connectors.telegram;
 
 import ninja.soroosh.chatopia.core.runner.*;
+import ninja.soroosh.chatopia.core.runner.responses.Response;
+import ninja.soroosh.chatopia.core.runner.responses.TextResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -48,11 +50,14 @@ class TelegramController {
                 new Context(Optional.of(sessionId), "telegram")
         );
 
-        var optionsMarkup = generateOptionsMark(commandResponse.getOptions());
+        Object response = null;
+        if (commandResponse instanceof TextResponse textResponse) {
+            var optionsMarkup = generateOptionsMark(textResponse.getOptions());
+            response = restTemplate.postForEntity(
+                    String.format("https://api.telegram.org/bot%s/sendMessage", key),
+                    new TelegramSendMessage(chatId, textResponse.getMessage(), optionsMarkup), Object.class);
+        }
 
-        Object response = restTemplate.postForEntity(
-                String.format("https://api.telegram.org/bot%s/sendMessage", key),
-                new TelegramSendMessage(chatId, commandResponse.getMessage(), optionsMarkup), Object.class);
 
         System.out.println(response);
         return "ok";
