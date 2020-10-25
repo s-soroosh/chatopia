@@ -7,4 +7,5 @@ class TelegramRequest {
     private String updateId;
     private TelegramMessage message;
     private CallbackQuery callbackQuery;
+
 }

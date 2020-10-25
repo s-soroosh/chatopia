@@ -1,8 +1,6 @@
 package ninja.soroosh.chatopia.core.connectors.telegram;
 
-import ninja.soroosh.chatopia.core.runner.Command;
-import ninja.soroosh.chatopia.core.runner.CommandRunner;
-import ninja.soroosh.chatopia.core.runner.Context;
+import ninja.soroosh.chatopia.core.runner.*;
 import ninja.soroosh.chatopia.core.runner.responses.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,13 +43,40 @@ class TelegramController {
     public String webhook(@RequestBody TelegramRequest telegramRequest) throws IOException {
         var message = telegramRequest.getMessage() != null ? telegramRequest.getMessage() : telegramRequest.getCallbackQuery().getMessage();
         var commandText = telegramRequest.getCallbackQuery() == null ? message.getText() : telegramRequest.getCallbackQuery().getData();
+
         final long chatId = message.getChat().getId();
-        final Command command = telegramCommandBuilder.build(commandText);
         final String sessionId = "telegram-" + chatId;
-        final Response commandResponse = commandRunner.run(
-                command,
-                new Context(Optional.of(sessionId), "telegram")
-        );
+        final Context context = new Context(Optional.of(sessionId), "telegram");
+
+        final Response commandResponse;
+        if (commandText == null) {
+            //this is an event?
+            final String eventName;
+            final Event event;
+            if (telegramRequest.getMessage().getNewChatMember() != null) {
+                eventName = "NEW_CHAT_MEMBER";
+                event = new Event(eventName, new UserEventPayload(
+                        String.valueOf(telegramRequest.getMessage().getNewChatMember().getId()),
+                        telegramRequest.getMessage().getNewChatMember().getFirstName(),
+                        ""
+                ));
+            } else {
+                eventName = "UNKNOWN";
+                event = new Event(eventName, null);
+            }
+            commandResponse = commandRunner.runEvent(event, context);
+        } else {
+            final Command command = telegramCommandBuilder.build(commandText);
+
+            if (command.name() == null) {
+                return "ok";
+            }
+
+            commandResponse = commandRunner.run(
+                    command,
+                    context
+            );
+        }
 
         Object response = responseHandler.handle(message, commandResponse);
 
