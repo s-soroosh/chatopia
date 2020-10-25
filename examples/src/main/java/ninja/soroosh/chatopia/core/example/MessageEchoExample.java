@@ -2,9 +2,8 @@ package ninja.soroosh.chatopia.core.example;
 
 import ninja.soroosh.chatopia.core.annotation.ChatController;
 import ninja.soroosh.chatopia.core.annotation.OnCommand;
-import ninja.soroosh.chatopia.core.runner.CallbackDataOption;
-import ninja.soroosh.chatopia.core.runner.CallbackURLOption;
-import ninja.soroosh.chatopia.core.runner.Context;
+import ninja.soroosh.chatopia.core.annotation.OnEvent;
+import ninja.soroosh.chatopia.core.runner.*;
 import ninja.soroosh.chatopia.core.runner.responses.Response;
 import ninja.soroosh.chatopia.core.session.Session;
 
@@ -61,5 +60,10 @@ public class MessageEchoExample {
         return Response
                 .asPhoto(url)
                 .withCaption("chetoram?");
+    }
+
+    @OnEvent("NEW_CHAT_MEMBER")
+    public Response onNewMember(Event<UserEventPayload> event, Context context) {
+        return Response.asText("Khosh oomadi lanati %s!".formatted(event.getPayload().getFirstName()));
     }
 }
