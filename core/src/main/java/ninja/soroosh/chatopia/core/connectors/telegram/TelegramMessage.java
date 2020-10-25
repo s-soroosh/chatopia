@@ -9,4 +9,5 @@ class TelegramMessage {
     private Chat chat;
     private String text;
     private long date;
+    private TelegramUser newChatMember;
 }
