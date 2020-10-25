@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 
 @Getter
 @AllArgsConstructor
-public class Rule {
+public class CommandRule {
     private String commandName;
     private String help;
     private Object object;

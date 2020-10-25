@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RulesBuilder {
-    public List<Rule> buildFromOnCommandAnnotations(Collection<Object> candidateObjects) {
+    public List<CommandRule> buildFromOnCommandAnnotations(Collection<Object> candidateObjects) {
         return candidateObjects.stream().
                 flatMap(object -> Arrays.stream(object.getClass()
                         .getDeclaredMethods())
@@ -21,8 +21,8 @@ public class RulesBuilder {
                 .collect(Collectors.toList());
     }
 
-    private Rule toRule(Object object, Method method) {
+    private CommandRule toRule(Object object, Method method) {
         final OnCommand onCommandAnnotation = method.getAnnotation(OnCommand.class);
-        return new Rule(onCommandAnnotation.value(), onCommandAnnotation.help(), object, method);
+        return new CommandRule(onCommandAnnotation.value(), onCommandAnnotation.help(), object, method);
     }
 }
