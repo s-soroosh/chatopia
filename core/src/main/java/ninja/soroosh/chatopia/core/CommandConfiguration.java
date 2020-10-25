@@ -12,13 +12,24 @@ import java.util.Map;
 public class CommandConfiguration {
 
     @Bean
-    public RulesBuilder rulesBuilder(){
+    public RulesBuilder rulesBuilder() {
         return new RulesBuilder();
     }
 
     @Bean
-    public List<Rule> rules(ApplicationContext applicationContext, RulesBuilder rulesBuilder) {
+    public EventsBuilder eventsBuilder() {
+        return new EventsBuilder();
+    }
+
+    @Bean
+    public List<CommandRule> commandRules(ApplicationContext applicationContext, RulesBuilder rulesBuilder) {
         final Map<String, Object> chatControllers = applicationContext.getBeansWithAnnotation(ChatController.class);
         return rulesBuilder.buildFromOnCommandAnnotations(chatControllers.values());
+    }
+
+    @Bean
+    public List<EventRule> eventRules(ApplicationContext applicationContext, EventsBuilder eventsBuilder) {
+        final Map<String, Object> chatControllers = applicationContext.getBeansWithAnnotation(ChatController.class);
+        return eventsBuilder.buildFromOnCommandAnnotations(chatControllers.values());
     }
 }
