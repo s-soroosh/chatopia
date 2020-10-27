@@ -9,19 +9,33 @@ The idea is simple, develop chatbots in the same way do implement web applicatio
 
 A simple Example:
 
-How to implement a chatbot that echo the message
+How to implement a chatbot able to echo the messages
 ------------------------------------------------
 ```java
 
 public class MessageEchoExample {
 
-    @OnCommand("echo")
+    @OnCommand(value = "echo", help = "This command echo")
     public Response onEchoCommand(String message, Context context) {
         return Response.asText("echo " + message);
     }
-    //...
+
+    @OnCommand(value = "echo *", help = "This command echo")
+    public Response onEchoStarCommand(String message, Context context) {
+        return Response.asText(message.substring(5));
+    }
+    // space star at the end of command name lets arguments in
 }
 ```
+In chat groups is the `@OnEvent` commands used and can perform an action based 
+on events in the group. Example below demonstrates how to implement a welcome message for new members.
+```java
+    @OnEvent("NEW_CHAT_MEMBER")
+    public Response onNewMember(Event<UserEventPayload> event, Context context) {
+        return Response.asText("Khosh oomadi lanati %s!".formatted(event.getPayload().getFirstName()));
+    }
+```  
+
 ![alt text](Chatopia.png "Logo Title Text 1")
 
 Milestones
@@ -60,4 +74,4 @@ following steps might be needed:
 
 5. If everything is fine you will see:  
 	`{"ok":true,"result":true,"description":"Webhook is already set"}`  
-6. Send a simple `hi` message to your bot to check it working. have fun.
+6. Send a simple `hi` message to your bot to check if its working. have fun.
