@@ -27,7 +27,7 @@ public class MessageEchoExample {
     // space star at the end of command name lets arguments in
 }
 ```
-In chat groups is the `@OnEvent` commands used and can perform an action based 
+`@OnEvent` annotation case be used in order to perform an action based 
 on events in the group. Example below demonstrates how to implement a welcome message for new members.
 ```java
     @OnEvent("NEW_CHAT_MEMBER")
@@ -48,6 +48,7 @@ Below are some ideas I'll implement in the comming days, no promise to respect t
 -   [ ]  Slack chatbot connector
 -   [ ]  Design plugin to make the chatbot extensible
 -   [ ]  Some plugins out of the box
+-   [ ]  List supported events
 
 How to run examples
 -----------
