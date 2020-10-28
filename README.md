@@ -27,6 +27,15 @@ public class MessageEchoExample {
     // space star at the end of command name lets arguments in
 }
 ```
+In chat groups is the `@OnEvent` commands used and can perform an action based 
+on events in the group. Example below demonstrates how to implement a welcome message for new members.
+```java
+    @OnEvent("NEW_CHAT_MEMBER")
+    public Response onNewMember(Event<UserEventPayload> event, Context context) {
+        return Response.asText("Khosh oomadi lanati %s!".formatted(event.getPayload().getFirstName()));
+    }
+```  
+
 ![alt text](Chatopia.png "Logo Title Text 1")
 
 Milestones
