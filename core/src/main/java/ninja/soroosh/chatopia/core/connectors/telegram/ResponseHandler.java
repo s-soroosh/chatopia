@@ -74,7 +74,11 @@ public class ResponseHandler {
                         BASEURL.concat(key).concat("/").concat(SEND_PHOTO), requestBody
                         , Object.class);
             } else {
-                result = generateForm(response, TYPE_PHOTO);
+                HttpEntity<MultiValueMap<String, Object>> requestEntity
+                        = generateForm(response, TYPE_PHOTO);
+                return restTemplate.postForEntity(
+                        BASEURL.concat(key).concat("/").concat(SEND_PHOTO), requestEntity
+                        , Object.class);
             }
         } else if (response instanceof VideoResponse videoResponse) {
             if (videoResponse.getId() != null) {
@@ -88,13 +92,17 @@ public class ResponseHandler {
                         BASEURL.concat(key).concat("/").concat(SEND_VIDEO), requestBody
                         , Object.class);
             } else {
-                result = generateForm(response, TYPE_VIDEO);
+                HttpEntity<MultiValueMap<String, Object>> requestEntity
+                        = generateForm(response, TYPE_VIDEO);
+                return restTemplate.postForEntity(
+                        BASEURL.concat(key).concat("/").concat(SEND_VIDEO), requestEntity
+                        , Object.class);
             }
         }
         return result;
     }
 
-    private Object generateForm(Response response, String type) {
+    private HttpEntity<MultiValueMap<String, Object>> generateForm(Response response, String type) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -121,17 +129,8 @@ public class ResponseHandler {
         form.add("caption", response.getCaption());
         HttpEntity<MultiValueMap<String, Object>> requestEntity
                 = new HttpEntity<>(form, headers);
-
-        if (response instanceof VideoResponse) {
-            return restTemplate.postForEntity(
-                    BASEURL.concat(key).concat("/").concat(SEND_VIDEO), requestEntity
-                    , Object.class);
-        } else {
-            return restTemplate.postForEntity(
-                    BASEURL.concat(key).concat("/").concat(SEND_PHOTO), requestEntity
-                    , Object.class);
+        return requestEntity;
         }
-    }
 
     private ReplyMarkup generateOptionsMark(List<Option> options) {
         if (options == null || options.isEmpty()) {
