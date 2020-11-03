@@ -64,7 +64,7 @@ public class MessageEchoExample {
 
     @OnCommand(value = "video", help = "A showcase to send a video")
     public Response onVideoCommand(String message, Context context) {
-        return Response.asVideo(this.getClass().getClassLoader().getResourceAsStream("thankyounote.mp4"));
+        return Response.asVideo(this.getClass().getClassLoader().getResourceAsStream("buongiorno.mp4"));
     }
 
     @OnEvent("NEW_CHAT_MEMBER")

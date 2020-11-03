@@ -48,7 +48,7 @@ public class ResponseHandler {
     //    TODO: model a general handling return type
     public Object handle(TelegramMessage message, Response response) {
         Object result = null;
-        chatId = message.getChat().getId();
+        final long chatId = message.getChat().getId();
         if (response instanceof TextResponse textResponse) {
             var optionsMarkup = generateOptionsMark(textResponse.getOptions());
             result = restTemplate.postForEntity(
@@ -74,7 +74,7 @@ public class ResponseHandler {
                         BASEURL.concat(key).concat("/").concat(SEND_PHOTO), requestBody
                         , Object.class);
             } else {
-                result = formGenerator(response, TYPE_PHOTO);
+                result = generateForm(response, TYPE_PHOTO);
             }
         } else if (response instanceof VideoResponse videoResponse) {
             if (videoResponse.getId() != null) {
@@ -88,13 +88,13 @@ public class ResponseHandler {
                         BASEURL.concat(key).concat("/").concat(SEND_VIDEO), requestBody
                         , Object.class);
             } else {
-                result = formGenerator(response, TYPE_VIDEO);
+                result = generateForm(response, TYPE_VIDEO);
             }
         }
         return result;
     }
 
-    private Object formGenerator(Response response, String type) {
+    private Object generateForm(Response response, String type) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
