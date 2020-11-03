@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-class TelegramSendPhoto {
+class TelegramSendMedia {
     private long chatId;
-    private String photo;
+    private String media;
     private String caption;
 }

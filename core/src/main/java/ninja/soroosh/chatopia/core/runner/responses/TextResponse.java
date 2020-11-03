@@ -3,6 +3,7 @@ package ninja.soroosh.chatopia.core.runner.responses;
 import lombok.Getter;
 import ninja.soroosh.chatopia.core.runner.Option;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,5 +27,15 @@ public final class TextResponse implements Response {
         }
         this.options.add(option);
         return this;
+    }
+
+    @Override
+    public InputStream getStream() {
+        return null;
+    }
+
+    @Override
+    public String getCaption() {
+        return message;
     }
 }

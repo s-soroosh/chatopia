@@ -28,4 +28,9 @@ public final class PhotoResponse implements Response {
         this.caption = caption;
         return this;
     }
+
+    @Override
+    public InputStream getStream() {
+        return this.photoStream;
+    }
 }
