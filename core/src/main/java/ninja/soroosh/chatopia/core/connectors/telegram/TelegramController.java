@@ -24,6 +24,8 @@ class TelegramController {
     private CommandRunner commandRunner;
     @Autowired
     private TelegramCommandBuilder telegramCommandBuilder;
+    @Autowired
+    private TelegramEventBuilder telegramEventBuilder;
 
     @Autowired
     private ResponseHandler responseHandler;
@@ -50,33 +52,7 @@ class TelegramController {
 
         final Response commandResponse;
         if (commandText == null) {
-            //this is an event?
-            final String eventName;
-            final Event event;
-            if (telegramRequest.getMessage().getNewChatMember() != null) {
-                eventName = "NEW_CHAT_MEMBER";
-                event = new Event(eventName, new UserEventPayload(
-                        String.valueOf(telegramRequest.getMessage().getNewChatMember().getId()),
-                        telegramRequest.getMessage().getNewChatMember().getFirstName(),
-                        ""
-                ));
-            } else if (telegramRequest.getMessage().getLeftChatMember() != null) {
-                eventName = "NEW_CHAT_MEMBER";
-                event = new Event(eventName, new UserEventPayload(
-                        String.valueOf(telegramRequest.getMessage().getNewChatMember().getId()),
-                        telegramRequest.getMessage().getNewChatMember().getFirstName(),
-                        ""
-                ));
-            } else if (telegramRequest.getMessage().getNewChatTitle() != null) {
-                eventName = "NEW_CHAT_TITLE";
-                event = new Event(
-                        eventName,
-                        new ChatEventPayload(telegramRequest.getMessage().getNewChatTitle())
-                );
-            } else {
-                eventName = "UNKNOWN";
-                event = new Event(eventName, null);
-            }
+            final Event event = telegramEventBuilder.build(telegramRequest.getMessage());
             commandResponse = commandRunner.runEvent(event, context);
         } else {
             final Command command = telegramCommandBuilder.build(commandText);

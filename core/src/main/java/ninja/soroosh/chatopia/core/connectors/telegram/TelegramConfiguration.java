@@ -18,4 +18,9 @@ public class TelegramConfiguration {
     public TelegramCommandBuilder getTelegramCommandBuilder() {
         return new TelegramCommandBuilder();
     }
+
+    @Bean
+    public TelegramEventBuilder getTelegramEventBuilder() {
+        return new TelegramEventBuilder();
+    }
 }
