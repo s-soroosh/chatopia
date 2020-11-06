@@ -28,4 +28,5 @@ done
 
 echo "the ngrok url is $uri"
 
+curl "https://api.telegram.org/bot$key/deleteWebhook"
 curl "https://api.telegram.org/bot$key/setWebhook?url=$uri$endpoint"
