@@ -60,6 +60,19 @@ class TelegramController {
                         telegramRequest.getMessage().getNewChatMember().getFirstName(),
                         ""
                 ));
+            } else if (telegramRequest.getMessage().getLeftChatMember() != null) {
+                eventName = "NEW_CHAT_MEMBER";
+                event = new Event(eventName, new UserEventPayload(
+                        String.valueOf(telegramRequest.getMessage().getNewChatMember().getId()),
+                        telegramRequest.getMessage().getNewChatMember().getFirstName(),
+                        ""
+                ));
+            } else if (telegramRequest.getMessage().getNewChatTitle() != null) {
+                eventName = "NEW_CHAT_TITLE";
+                event = new Event(
+                        eventName,
+                        new ChatEventPayload(telegramRequest.getMessage().getNewChatTitle())
+                );
             } else {
                 eventName = "UNKNOWN";
                 event = new Event(eventName, null);
