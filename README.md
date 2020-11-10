@@ -16,15 +16,15 @@ How to implement a chatbot able to echo the messages
 public class MessageEchoExample {
 
     @OnCommand(value = "echo", help = "This command echo")
-    public Response onEchoCommand(String message, Context context) {
-        return Response.asText("echo " + message);
+    public Response onEchoCommand(Command command, Context context) {
+        return Response.asText("echo " + command.name());
     }
-
+    // space star at the end of command name let arguments in
     @OnCommand(value = "echo *", help = "This command echo")
-    public Response onEchoStarCommand(String message, Context context) {
-        return Response.asText(message.substring(5));
+    public Response onEchoStarCommand(Command command, Context context) {
+        return Response.asText(command.name().substring(5));
     }
-    // space star at the end of command name lets arguments in
+    
 }
 ```
 `@OnEvent` annotation case be used in order to perform an action based 
