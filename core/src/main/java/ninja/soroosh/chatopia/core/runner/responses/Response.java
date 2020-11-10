@@ -3,7 +3,7 @@ package ninja.soroosh.chatopia.core.runner.responses;
 import java.io.InputStream;
 import java.net.URL;
 
-public sealed interface Response permits TextResponse, PhotoResponse, VideoResponse {
+public sealed interface Response permits TextResponse, KickResponse, StreamResponse {
     static TextResponse asText(String message) {
         return new TextResponse(message);
     }
@@ -32,7 +32,7 @@ public sealed interface Response permits TextResponse, PhotoResponse, VideoRespo
         return new VideoResponse(id);
     }
 
-    InputStream getStream();
-
     String getCaption();
+
+    static ManagementResponse management = new ManagementResponse();
 }

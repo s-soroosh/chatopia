@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 @Getter
-public final class PhotoResponse implements Response {
+public final class PhotoResponse implements StreamResponse {
     private String caption;
     private InputStream photoStream;
     private URL url;
@@ -29,7 +29,6 @@ public final class PhotoResponse implements Response {
         return this;
     }
 
-    @Override
     public InputStream getStream() {
         return this.photoStream;
     }

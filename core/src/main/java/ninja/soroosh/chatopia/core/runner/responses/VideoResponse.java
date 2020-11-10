@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 @Getter
-public final class VideoResponse implements Response {
+public final class VideoResponse implements StreamResponse {
     private String caption;
     private InputStream videoStream;
     private URL url;

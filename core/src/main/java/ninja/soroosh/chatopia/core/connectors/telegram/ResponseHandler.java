@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import ninja.soroosh.chatopia.core.runner.CallbackDataOption;
 import ninja.soroosh.chatopia.core.runner.CallbackURLOption;
 import ninja.soroosh.chatopia.core.runner.Option;
-import ninja.soroosh.chatopia.core.runner.responses.PhotoResponse;
-import ninja.soroosh.chatopia.core.runner.responses.Response;
-import ninja.soroosh.chatopia.core.runner.responses.TextResponse;
-import ninja.soroosh.chatopia.core.runner.responses.VideoResponse;
+import ninja.soroosh.chatopia.core.runner.responses.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ContentDisposition;
@@ -75,7 +72,7 @@ public class ResponseHandler {
                         , Object.class);
             } else {
                 HttpEntity<MultiValueMap<String, Object>> requestEntity
-                        = generateForm(response, TYPE_PHOTO);
+                        = generateForm(photoResponse, TYPE_PHOTO);
                 return restTemplate.postForEntity(
                         BASEURL.concat(key).concat("/").concat(SEND_PHOTO), requestEntity
                         , Object.class);
@@ -93,7 +90,7 @@ public class ResponseHandler {
                         , Object.class);
             } else {
                 HttpEntity<MultiValueMap<String, Object>> requestEntity
-                        = generateForm(response, TYPE_VIDEO);
+                        = generateForm(videoResponse, TYPE_VIDEO);
                 return restTemplate.postForEntity(
                         BASEURL.concat(key).concat("/").concat(SEND_VIDEO), requestEntity
                         , Object.class);
@@ -102,7 +99,7 @@ public class ResponseHandler {
         return result;
     }
 
-    private HttpEntity<MultiValueMap<String, Object>> generateForm(Response response, String type) {
+    private HttpEntity<MultiValueMap<String, Object>> generateForm(StreamResponse response, String type) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -130,7 +127,7 @@ public class ResponseHandler {
         HttpEntity<MultiValueMap<String, Object>> requestEntity
                 = new HttpEntity<>(form, headers);
         return requestEntity;
-        }
+    }
 
     private ReplyMarkup generateOptionsMark(List<Option> options) {
         if (options == null || options.isEmpty()) {

@@ -30,11 +30,6 @@ public final class TextResponse implements Response {
     }
 
     @Override
-    public InputStream getStream() {
-        return null;
-    }
-
-    @Override
     public String getCaption() {
         return message;
     }
