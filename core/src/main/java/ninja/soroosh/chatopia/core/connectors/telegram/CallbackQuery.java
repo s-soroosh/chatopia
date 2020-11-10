@@ -6,4 +6,5 @@ import lombok.Data;
 public class CallbackQuery {
     private TelegramMessage message;
     private String data;
+    private TelegramUser from;
 }

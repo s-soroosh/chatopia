@@ -7,6 +7,7 @@ import lombok.Data;
 class TelegramMessage {
     private String messageId;
     private Chat chat;
+    private TelegramUser from;
     private String text;
     private long date;
     private TelegramUser newChatMember;
