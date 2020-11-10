@@ -45,17 +45,24 @@ class TelegramController {
     public String webhook(@RequestBody TelegramRequest telegramRequest) throws IOException {
         var message = telegramRequest.getMessage() != null ? telegramRequest.getMessage() : telegramRequest.getCallbackQuery().getMessage();
         var commandText = telegramRequest.getCallbackQuery() == null ? message.getText() : telegramRequest.getCallbackQuery().getData();
+        var isCallback = telegramRequest.getCallbackQuery() == null ? false : true;
 
         final long chatId = message.getChat().getId();
         final String sessionId = "telegram-" + chatId;
         final Context context = new Context(Optional.of(sessionId), "telegram");
 
         final Response commandResponse;
+
         if (commandText == null) {
             final Event event = telegramEventBuilder.build(telegramRequest.getMessage());
             commandResponse = commandRunner.runEvent(event, context);
         } else {
-            final Command command = telegramCommandBuilder.build(commandText);
+            final Command command;
+            if (isCallback) {
+                command = telegramCommandBuilder.buildFrom(telegramRequest.getCallbackQuery());
+            } else {
+                command = telegramCommandBuilder.buildFrom(telegramRequest.getMessage());
+            }
 
             if (command.name() == null) {
                 return "ok";

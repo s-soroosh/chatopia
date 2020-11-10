@@ -72,7 +72,7 @@ public class SimpleCommandRunner implements CommandRunner {
         try {
             return (Response) matchedCommandRule.getMethod().invoke(
                     matchedCommandRule.getObject(),
-                    command.name(),
+                    command,
                     enrichedContext
             );
         } catch (IllegalAccessException | InvocationTargetException e) {
